@@ -19,13 +19,26 @@ public class MIPSInstructionR extends AbstractMIPSInstruction {
 
         if(type == MIPSStringType.String) {
             String[] arr = getPartsOfAsmString(str);
+            if(arr[0].equals("syscall")) {
+                assignVariablesSyscall(arr);
+                return;
+            }
             op = 0;
             rs = RegisterUtil.getValue(arr[2]);
             rt = RegisterUtil.getValue(arr[3]);
             rd = RegisterUtil.getValue(arr[1]);
             shamt = 0;
-            funct = FunctUtil.getValue(str.split(" ")[0]);
+            funct = FunctUtil.getValue(arr[0]);
         }
+    }
+
+    private void assignVariablesSyscall(String[] arr) {
+        op = 0;
+        rs = 0;
+        rt = 0;
+        rd = 0;
+        shamt = 0;
+        funct = FunctUtil.getValue(arr[0]);
     }
 
     private String[] getPartsOfAsmString(String str) {
@@ -39,6 +52,10 @@ public class MIPSInstructionR extends AbstractMIPSInstruction {
 
     @Override
     public String toString() {
+        if("syscall".equals(FunctUtil.getString(funct))) {
+            return "syscall";
+        }
+
         return FunctUtil.getString(funct)
                 + " " + RegisterUtil.getString(rd)
                 + ", " + RegisterUtil.getString(rs)
@@ -47,7 +64,15 @@ public class MIPSInstructionR extends AbstractMIPSInstruction {
 
     @Override
     public String toBinary() {
-        return "000000" + Integer.toBinaryString(getFullInstructionInt());
+        String str = Integer.toBinaryString(getFullInstructionInt());
+        StringBuilder sb = new StringBuilder();
+        while(sb.length() + str.length() < 32) {
+            sb.append('0');
+        }
+
+        sb.append(str);
+
+        return sb.toString();
     }
 
     private int getFullInstructionInt() {
