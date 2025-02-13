@@ -2,18 +2,15 @@ package Instructions;
 
 import lib.MIPSConvertible;
 import lib.MIPSInstruction;
+import lib.MIPSStringType;
 
 public class MIPSInstructionR implements MIPSInstruction {
 
-    public MIPSInstructionR(String str, boolean isHex) {
-        if(isHex) {
+    public MIPSInstructionR(String str, MIPSStringType type) {
+        if(type == MIPSStringType.Hex || type == MIPSStringType.Binary) {
             throw new UnsupportedOperationException("hex is not implemented yet");
         }
-        // TODO
-    }
-
-    public MIPSInstructionR(boolean[] bits) {
-        // TODO
+        // TODO implement creating instruction with string
     }
 
     @Override

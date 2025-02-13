@@ -1,7 +1,6 @@
 package lib;
 
 public class MIPSInstructionFactory {
-
     public static MIPSInstruction create(String str) {
         if(str.startsWith("0x")) {
             return create(str, MIPSStringType.Hex);
@@ -12,7 +11,7 @@ public class MIPSInstructionFactory {
         }
     }
 
-    private static boolean isBinary(String str) {
+    public static boolean isBinary(String str) {
         for(int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
             if(c == '0' || c == '1') continue;

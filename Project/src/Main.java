@@ -1,6 +1,5 @@
 import lib.MIPSInstruction;
 import lib.MIPSInstructionFactory;
-import lib.MIPSStringType;
 
 public class Main {
     public static void main(String[] args) {
