@@ -25,6 +25,14 @@ public class RegisterUtil {
             return 30;
         } else if(str.equals("$ra")) {
             return 31;
+        } else if(str.startsWith("$") && str.length() == 2 || str.length() == 3) {
+            str = str.substring(1);
+            int ans = Integer.parseInt(str);
+            if(ans >= 0 && ans <= 31) {
+                return ans;
+            } else {
+                throw new IllegalArgumentException("Register not recognized");
+            }
         } else {
             throw new IllegalArgumentException("Register not recognized");
         }

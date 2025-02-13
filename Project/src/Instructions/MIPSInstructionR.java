@@ -5,8 +5,10 @@ import lib.MIPSInstruction;
 import lib.MIPSStringType;
 import lib.RegisterUtil;
 
+import java.util.HexFormat;
+
 public class MIPSInstructionR implements MIPSInstruction {
-    private int opCode = 0;
+    private int op;
     private int rs;
     private int rt;
     private int rd;
@@ -20,9 +22,10 @@ public class MIPSInstructionR implements MIPSInstruction {
 
         if(type == MIPSStringType.String) {
             String[] arr = getPartsOfAsmString(str);
-            rs = RegisterUtil.getValue(arr[1]);
-            rt = RegisterUtil.getValue(arr[2]);
-            rd = RegisterUtil.getValue(arr[3]);
+            op = 0;
+            rs = RegisterUtil.getValue(arr[2]);
+            rt = RegisterUtil.getValue(arr[3]);
+            rd = RegisterUtil.getValue(arr[1]);
             shamt = 0;
             funct = FunctUtil.getValue(str.split(" ")[0]);
         }
@@ -40,18 +43,40 @@ public class MIPSInstructionR implements MIPSInstruction {
     @Override
     public String toString() {
         return FunctUtil.getString(funct)
-                + " " + RegisterUtil.getString(rs)
-                + ", " + RegisterUtil.getString(rt)
-                + ", " + RegisterUtil.getString(rd);
+                + " " + RegisterUtil.getString(rd)
+                + ", " + RegisterUtil.getString(rs)
+                + ", " + RegisterUtil.getString(rt);
     }
 
     @Override
     public String toHex() {
-        return null;
+        char[] arr = toBinary().toCharArray();
+        StringBuilder sb = new StringBuilder();
+        StringBuilder hexSb = new StringBuilder();
+        for(int i = 0; i < arr.length; i++) {
+            sb.append(arr[i]);
+
+            if((i + 1) % 4 == 0) {
+                hexSb.append(Integer.toString(Integer.parseInt(sb.toString(), 2), 16));
+                sb.delete(0, sb.length());
+            }
+        }
+
+        return hexSb.toString();
     }
 
     @Override
     public String toBinary() {
-        return null;
+        return "000000" + Integer.toBinaryString(getFullInstructionInt());
+    }
+
+    private int getFullInstructionInt() {
+        int inst = funct;
+        inst = inst | (shamt << 6);
+        inst = inst | (rd << 11);
+        inst = inst | (rt << 16);
+        inst = inst | (rs << 21);
+        inst = inst | (op << 26);
+        return inst;
     }
 }
