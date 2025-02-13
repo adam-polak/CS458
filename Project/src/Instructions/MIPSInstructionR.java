@@ -1,7 +1,6 @@
 package Instructions;
 
 import lib.FunctUtil;
-import lib.MIPSConvertible;
 import lib.MIPSInstruction;
 import lib.MIPSStringType;
 
