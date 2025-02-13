@@ -11,9 +11,11 @@ public class Main {
         str = str.trim();
         StringBuilder ans = new StringBuilder();
         char[] arr = str.toCharArray();
+        boolean lastIsSpace = false;
         for (char c : arr) {
-            if (c != ' ') {
+            if (c != ' ' || !lastIsSpace) {
                 ans.append(c);
+                lastIsSpace = c == ' ';
             }
         }
 
