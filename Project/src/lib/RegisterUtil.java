@@ -30,6 +30,34 @@ public class RegisterUtil {
         }
     }
 
+    public static String getString(int value) {
+        if(value == 0) {
+            return "$zero";
+        } else if(value == 1) {
+            return "$at";
+        } else if(value == 2 || value == 3) {
+            return "$v" + (value - 1);
+        } else if(value >= 4 && value <= 7) {
+            return "$a" + (value - 4);
+        } else if(value >= 8 && value <= 15 || value == 24 || value == 25) {
+            return "$t" + (value < 24 ? value - 8 : value - 24);
+        } else if(value >= 16 && value <= 23) {
+            return "$s" + (value - 16);
+        } else if(value == 26 || value == 27) {
+            return "$k" + (value - 26);
+        } else if(value == 28) {
+            return "$gp";
+        } else if(value == 29) {
+            return "$sp";
+        } else if(value == 30) {
+            return "$fp";
+        } else if(value ==31) {
+            return "ra";
+        } else {
+            throw new IllegalArgumentException("Invalid register value");
+        }
+    }
+
     private static int getTrailingInt(String str) {
         return Integer.parseInt(str.substring(2));
     }

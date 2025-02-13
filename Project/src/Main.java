@@ -13,7 +13,8 @@ public class Main {
         char[] arr = str.toCharArray();
         boolean lastIsSpace = false;
         for (char c : arr) {
-            if (c != ' ' || !lastIsSpace) {
+            if(c == '#') break;
+            else if (c != ' ' || !lastIsSpace) {
                 ans.append(c);
                 lastIsSpace = c == ' ';
             }
