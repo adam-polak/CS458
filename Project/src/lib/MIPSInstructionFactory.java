@@ -1,5 +1,7 @@
 package lib;
 
+import Instructions.MIPSInstructionR;
+
 public class MIPSInstructionFactory {
     public static MIPSInstruction create(String str) {
         if(str.startsWith("0x")) {
@@ -34,7 +36,16 @@ public class MIPSInstructionFactory {
     }
 
     private static MIPSInstruction fromString(String str) {
-        throw new UnsupportedOperationException();
+        String start = str.split(" ")[0];
+        switch(OpCodeUtil.getType(OpCodeUtil.getValue(start))) {
+            case R:
+                return new MIPSInstructionR(str, MIPSStringType.String);
+            case I:
+            case J:
+                throw new UnsupportedOperationException();
+            default:
+                throw new IllegalArgumentException("Not a valid instruction start");
+        }
     }
 
     private static MIPSInstruction fromHex(String str) {
