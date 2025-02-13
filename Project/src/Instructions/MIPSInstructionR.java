@@ -1,13 +1,10 @@
 package Instructions;
 
-import lib.FunctUtil;
-import lib.MIPSInstruction;
-import lib.MIPSStringType;
-import lib.RegisterUtil;
+import lib.*;
 
 import java.util.HexFormat;
 
-public class MIPSInstructionR implements MIPSInstruction {
+public class MIPSInstructionR extends AbstractMIPSInstruction {
     private int op;
     private int rs;
     private int rt;
@@ -46,23 +43,6 @@ public class MIPSInstructionR implements MIPSInstruction {
                 + " " + RegisterUtil.getString(rd)
                 + ", " + RegisterUtil.getString(rs)
                 + ", " + RegisterUtil.getString(rt);
-    }
-
-    @Override
-    public String toHex() {
-        char[] arr = toBinary().toCharArray();
-        StringBuilder sb = new StringBuilder();
-        StringBuilder hexSb = new StringBuilder();
-        for(int i = 0; i < arr.length; i++) {
-            sb.append(arr[i]);
-
-            if((i + 1) % 4 == 0) {
-                hexSb.append(Integer.toString(Integer.parseInt(sb.toString(), 2), 16));
-                sb.delete(0, sb.length());
-            }
-        }
-
-        return hexSb.toString();
     }
 
     @Override
