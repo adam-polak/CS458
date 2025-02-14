@@ -1,6 +1,7 @@
 package lib;
 
 import Instructions.MIPSInstructionI;
+import Instructions.MIPSInstructionJ;
 import Instructions.MIPSInstructionR;
 
 public class MIPSInstructionFactory {
@@ -44,7 +45,7 @@ public class MIPSInstructionFactory {
             case I:
                 return new MIPSInstructionI(str, MIPSStringType.String);
             case J:
-                throw new UnsupportedOperationException();
+                return new MIPSInstructionJ(str, MIPSStringType.String);
             default:
                 throw new IllegalArgumentException("Not a valid instruction start");
         }
