@@ -19,29 +19,23 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
             switch(arr[0]) {
                 case "beq":
                 case "bne":
-                    rs = RegisterUtil.getValue(arr[1]);
-                    rt = RegisterUtil.getValue(arr[2]);
-                    break;
-                case "lw":
-                case "sw":
-                    rt = convertToInt(arr[1]);
-                    rs = RegisterUtil.getValue(arr[2]);
+                case "lui":
+                    rs = getIntValue(arr[1]);
+                    rt = getIntValue(arr[2]);
                     break;
                 default:
-                    rt = RegisterUtil.getValue(arr[1]);
-                    rs = RegisterUtil.getValue(arr[2]);
+                    rt = getIntValue(arr[1]);
+                    rs = getIntValue(arr[2]);
                     break;
             }
 
-            imm = convertToInt(arr[3]);
-            System.out.printf("op: %d\nrt: %d\nrs: %d\nimm: %d\n", op, rt, rs, imm);
-            System.out.println(this.toBinary());
+            imm = getIntValue(arr[3]);
         } else {
             throw new UnsupportedOperationException();
         }
     }
 
-    private int convertToInt(String s) {
+    private int getIntValue(String s) {
         if(s.startsWith("0x")) {
             return Integer.parseInt(s.substring(2), 16);
         } else if(s.startsWith("$")) {
@@ -54,10 +48,11 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
     @Override
     protected String[] getPartsOfAsmString(String str) {
         String[] arr = super.getPartsOfAsmString(str);
+        String[] ans;
         switch(arr[0]) {
             case "lw":
             case "sw":
-                String[] ans = new String[4];
+                ans = new String[4];
                 ans[0] = arr[0];
                 ans[1] = arr[1];
                 ans[2] = "";
@@ -78,6 +73,13 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
                     }
                 }
 
+                return ans;
+            case "lui":
+                ans = new String[4];
+                ans[0] = arr[0];
+                ans[1] = "0";
+                ans[2] = arr[1];
+                ans[3] = arr[2];
                 return ans;
             default:
                 return arr;

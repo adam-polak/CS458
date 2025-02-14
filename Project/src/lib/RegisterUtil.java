@@ -13,7 +13,7 @@ public class RegisterUtil {
         } else if(str.startsWith("$t")) {
             int trail = getTrailingInt(str);
             return trail > 7 ? 16 + trail : 8 + trail;
-        } else if(str.startsWith("$s")) {
+        } else if(!str.equals("$sp") && str.startsWith("$s")) {
             return 16 + getTrailingInt(str);
         } else if(str.startsWith("$k")) {
             return 26 + getTrailingInt(str);
