@@ -1,4 +1,7 @@
 package lib;
 
-public interface MIPSInstruction extends MIPSConvertible {
+public interface MIPSInstruction {
+    public String toString();
+    public String toHex();
+    public String toBinary();
 }

@@ -1,6 +1,8 @@
 package lib;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class OpCodeUtil {
     private static final HashMap<String, Integer> map = new HashMap<>(){{
@@ -23,6 +25,20 @@ public class OpCodeUtil {
 
     public static int getValue(String str) {
         return map.get(str);
+    }
+
+    public static String getString(int value) {
+        if(value == 0) {
+            throw new IllegalArgumentException("Cannot get op code string for 0");
+        }
+
+        for(Map.Entry<String, Integer> entry : map.entrySet()) {
+            if(entry.getValue() == value) {
+                return entry.getKey();
+            }
+        }
+
+        throw new NoSuchElementException("Op code doesn't exist for value");
     }
 
     public static MIPSInstructionType getType(int value) {

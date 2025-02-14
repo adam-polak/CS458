@@ -2,25 +2,24 @@ package Instructions;
 
 import lib.*;
 
-import java.util.HexFormat;
-
 public class MIPSInstructionR extends AbstractMIPSInstruction {
-    private int op;
-    private int rs;
-    private int rt;
-    private int rd;
-    private int shamt;
-    private int funct;
+    private final int op;
+    private final int rs;
+    private final int rt;
+    private final int rd;
+    private final int shamt;
+    private final int funct;
 
     public MIPSInstructionR(String str, MIPSStringType type) {
-        if(type == MIPSStringType.Hex || type == MIPSStringType.Binary) {
-            throw new UnsupportedOperationException("hex is not implemented yet");
-        }
-
         if(type == MIPSStringType.String) {
             String[] arr = getPartsOfAsmString(str);
             if(arr[0].equals("syscall")) {
-                assignVariablesSyscall(arr);
+                op = 0;
+                rs = 0;
+                rt = 0;
+                rd = 0;
+                shamt = 0;
+                funct = FunctUtil.getValue(arr[0]);
                 return;
             }
             op = 0;
@@ -29,25 +28,9 @@ public class MIPSInstructionR extends AbstractMIPSInstruction {
             rd = RegisterUtil.getValue(arr[1]);
             shamt = 0;
             funct = FunctUtil.getValue(arr[0]);
+        } else {
+            throw new UnsupportedOperationException("MIPSString type not implemented yet");
         }
-    }
-
-    private void assignVariablesSyscall(String[] arr) {
-        op = 0;
-        rs = 0;
-        rt = 0;
-        rd = 0;
-        shamt = 0;
-        funct = FunctUtil.getValue(arr[0]);
-    }
-
-    private String[] getPartsOfAsmString(String str) {
-        String[] arr = str.split(" ");
-        for(int i = 1; i < arr.length - 1; i++) {
-            arr[i] = arr[i].substring(0, arr[i].length() - 1); // trim comma
-        }
-
-        return arr;
     }
 
     @Override
@@ -63,19 +46,7 @@ public class MIPSInstructionR extends AbstractMIPSInstruction {
     }
 
     @Override
-    public String toBinary() {
-        String str = Integer.toBinaryString(getFullInstructionInt());
-        StringBuilder sb = new StringBuilder();
-        while(sb.length() + str.length() < 32) {
-            sb.append('0');
-        }
-
-        sb.append(str);
-
-        return sb.toString();
-    }
-
-    private int getFullInstructionInt() {
+    protected int getFullInstructionInt() {
         int inst = funct;
         inst = inst | (shamt << 6);
         inst = inst | (rd << 11);

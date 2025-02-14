@@ -17,4 +17,27 @@ public abstract class AbstractMIPSInstruction implements MIPSInstruction {
 
         return hexSb.toString();
     }
+
+    public String toBinary() {
+        String str = Integer.toBinaryString(getFullInstructionInt());
+        StringBuilder sb = new StringBuilder();
+        while(sb.length() + str.length() < 32) {
+            sb.append('0');
+        }
+
+        sb.append(str);
+
+        return sb.toString();
+    }
+
+    protected String[] getPartsOfAsmString(String str) {
+        String[] arr = str.split(" ");
+        for(int i = 1; i < arr.length - 1; i++) {
+            arr[i] = arr[i].substring(0, arr[i].length() - 1); // trim comma
+        }
+
+        return arr;
+    }
+
+    protected abstract int getFullInstructionInt();
 }

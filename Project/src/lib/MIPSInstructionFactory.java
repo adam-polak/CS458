@@ -1,5 +1,6 @@
 package lib;
 
+import Instructions.MIPSInstructionI;
 import Instructions.MIPSInstructionR;
 
 public class MIPSInstructionFactory {
@@ -41,6 +42,7 @@ public class MIPSInstructionFactory {
             case R:
                 return new MIPSInstructionR(str, MIPSStringType.String);
             case I:
+                return new MIPSInstructionI(str, MIPSStringType.String);
             case J:
                 throw new UnsupportedOperationException();
             default:
