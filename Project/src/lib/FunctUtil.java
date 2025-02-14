@@ -9,6 +9,7 @@ public class FunctUtil {
         put("or", 37);
         put("sub", 34);
         put("syscall", 12);
+        put("slt", 42);
     }};
 
     public static int getValue(String str) {

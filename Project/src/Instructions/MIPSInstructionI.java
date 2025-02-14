@@ -16,11 +16,71 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
         if(type == MIPSStringType.String) {
             String[] arr = getPartsOfAsmString(str);
             op = OpCodeUtil.getValue(arr[0]);
-            rt = RegisterUtil.getValue(arr[1]);
-            rs = RegisterUtil.getValue(arr[2]);
-            imm = arr[3].startsWith("0x") ? Integer.parseInt(arr[3].substring(2), 16) : Integer.parseInt(arr[3]);
+            switch(arr[0]) {
+                case "beq":
+                case "bne":
+                    rs = RegisterUtil.getValue(arr[1]);
+                    rt = RegisterUtil.getValue(arr[2]);
+                    break;
+                case "lw":
+                case "sw":
+                    rt = convertToInt(arr[1]);
+                    rs = RegisterUtil.getValue(arr[2]);
+                    break;
+                default:
+                    rt = RegisterUtil.getValue(arr[1]);
+                    rs = RegisterUtil.getValue(arr[2]);
+                    break;
+            }
+
+            imm = convertToInt(arr[3]);
+            System.out.printf("op: %d\nrt: %d\nrs: %d\nimm: %d\n", op, rt, rs, imm);
+            System.out.println(this.toBinary());
         } else {
             throw new UnsupportedOperationException();
+        }
+    }
+
+    private int convertToInt(String s) {
+        if(s.startsWith("0x")) {
+            return Integer.parseInt(s.substring(2), 16);
+        } else if(s.startsWith("$")) {
+            return RegisterUtil.getValue(s);
+        } else {
+            return Integer.parseInt(s);
+        }
+    }
+
+    @Override
+    protected String[] getPartsOfAsmString(String str) {
+        String[] arr = super.getPartsOfAsmString(str);
+        switch(arr[0]) {
+            case "lw":
+            case "sw":
+                String[] ans = new String[4];
+                ans[0] = arr[0];
+                ans[1] = arr[1];
+                ans[2] = "";
+                ans[3] = "";
+                boolean startAdding = false;
+                for(int i = 0; i < arr[2].length(); i++) {
+                    if(startAdding && arr[2].charAt(i) != ')') {
+                        ans[2] += arr[2].charAt(i);
+                    } else if(arr[2].charAt(i) == '(') {
+                        if(ans[3].isEmpty()) {
+                            ans[3] = "0";
+                        }
+                        startAdding = true;
+                    } else if(arr[2].charAt(i) == ')') {
+                        break;
+                    } else {
+                        ans[3] += arr[2].charAt(i);
+                    }
+                }
+
+                return ans;
+            default:
+                return arr;
         }
     }
 
