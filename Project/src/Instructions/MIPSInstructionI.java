@@ -18,7 +18,7 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
             op = OpCodeUtil.getValue(arr[0]);
             rt = RegisterUtil.getValue(arr[1]);
             rs = RegisterUtil.getValue(arr[2]);
-            imm = Integer.parseInt(arr[3]);
+            imm = arr[3].startsWith("0x") ? Integer.parseInt(arr[3].substring(2), 16) : Integer.parseInt(arr[3]);
         } else {
             throw new UnsupportedOperationException();
         }
