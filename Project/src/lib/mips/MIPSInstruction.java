@@ -1,4 +1,4 @@
-package lib;
+package lib.mips;
 
 public interface MIPSInstruction {
     public String toString();

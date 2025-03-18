@@ -1,4 +1,4 @@
-package lib;
+package lib.mips;
 
 import java.util.HashMap;
 

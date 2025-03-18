@@ -1,4 +1,4 @@
-package lib;
+package lib.mips;
 
 public abstract class AbstractMIPSInstruction implements MIPSInstruction {
     @Override

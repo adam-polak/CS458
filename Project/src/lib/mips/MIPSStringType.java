@@ -1,4 +1,4 @@
-package lib;
+package lib.mips;
 
 public enum MIPSStringType {
     String,

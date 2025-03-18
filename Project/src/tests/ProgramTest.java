@@ -1,7 +1,7 @@
 package tests;
 
-import lib.MIPSInstruction;
-import lib.MIPSInstructionFactory;
+import lib.mips.MIPSInstruction;
+import lib.mips.MIPSInstructionFactory;
 import org.junit.Assert;
 import org.junit.Test;
 

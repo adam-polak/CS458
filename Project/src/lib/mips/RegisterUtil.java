@@ -1,4 +1,4 @@
-package lib;
+package lib.mips;
 
 public class RegisterUtil {
     public static int getValue(String str) {

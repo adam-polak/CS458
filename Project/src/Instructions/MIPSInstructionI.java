@@ -1,9 +1,9 @@
 package Instructions;
 
-import lib.AbstractMIPSInstruction;
-import lib.MIPSStringType;
-import lib.OpCodeUtil;
-import lib.RegisterUtil;
+import lib.mips.AbstractMIPSInstruction;
+import lib.mips.MIPSStringType;
+import lib.mips.OpCodeUtil;
+import lib.mips.RegisterUtil;
 
 public class MIPSInstructionI extends AbstractMIPSInstruction {
 

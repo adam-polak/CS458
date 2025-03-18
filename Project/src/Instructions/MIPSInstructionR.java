@@ -1,6 +1,9 @@
 package Instructions;
 
-import lib.*;
+import lib.mips.AbstractMIPSInstruction;
+import lib.mips.FunctUtil;
+import lib.mips.MIPSStringType;
+import lib.mips.RegisterUtil;
 
 public class MIPSInstructionR extends AbstractMIPSInstruction {
     private final int op;
