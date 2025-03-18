@@ -10,6 +10,7 @@ public class MIPSInstructionJ extends AbstractMIPSInstruction {
 
     public MIPSInstructionJ(String str, MIPSStringType type) {
         if(type == MIPSStringType.String) {
+            str = cleanString(str);
             String[] arr = getPartsOfAsmString(str);
             op = OpCodeUtil.getValue(arr[0]);
             formatHex = arr[1].startsWith("0x");

@@ -15,6 +15,7 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
 
     public MIPSInstructionI(String str, MIPSStringType type) {
         if(type == MIPSStringType.String) {
+            str = cleanString(str);
             String[] arr = getPartsOfAsmString(str);
             op = OpCodeUtil.getValue(arr[0]);
             switch(arr[0]) {

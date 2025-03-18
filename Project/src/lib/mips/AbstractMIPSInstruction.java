@@ -1,6 +1,23 @@
 package lib.mips;
 
 public abstract class AbstractMIPSInstruction implements MIPSInstruction {
+
+    protected String cleanString(String str) {
+        StringBuilder sb = new StringBuilder();
+        char[] arr = str.toCharArray();
+        boolean ignoreChar = false;
+        for(int i = 0; i < arr.length; i++) {
+            ignoreChar = arr[i] == '#'
+                        || ignoreChar ^ arr[i] == '\n';
+
+            if(!ignoreChar) {
+                sb.append(arr[i]);
+            }
+        }
+
+        return sb.toString().trim();
+    }
+
     public String convert(MIPSStringType format) {
         switch(format) {
             case Binary:

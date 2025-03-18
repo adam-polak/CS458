@@ -15,6 +15,7 @@ public class MIPSInstructionR extends AbstractMIPSInstruction {
 
     public MIPSInstructionR(String str, MIPSStringType type) {
         if(type == MIPSStringType.String) {
+            str = cleanString(str);
             String[] arr = getPartsOfAsmString(str);
             if(arr[0].equals("syscall")) {
                 op = 0;
