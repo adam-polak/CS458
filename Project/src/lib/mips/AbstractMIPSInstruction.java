@@ -6,7 +6,7 @@ public abstract class AbstractMIPSInstruction implements MIPSInstruction {
             case Binary:
                 return toBinary();
             case Hex:
-                return toString();
+                return toHex();
             case String:
                 return toString();
             default:
