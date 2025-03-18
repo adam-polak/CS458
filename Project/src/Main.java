@@ -1,25 +1,20 @@
-import lib.mips.MIPSInstruction;
-import lib.mips.MIPSInstructionFactory;
+import lib.files.MIPSFileConverter;
+import lib.mips.MIPSStringType;
+
+import java.io.FileReader;
 
 public class Main {
     public static void main(String[] args) {
-        String mipsAsm = formatString(args[0]);
-        MIPSInstruction instruction = MIPSInstructionFactory.create(mipsAsm);
-    }
+        String fileName = args[0];
 
-    private static String formatString(String str) {
-        str = str.trim();
-        StringBuilder ans = new StringBuilder();
-        char[] arr = str.toCharArray();
-        boolean lastIsSpace = false;
-        for (char c : arr) {
-            if(c == '#') break;
-            else if (c != ' ' || !lastIsSpace) {
-                ans.append(c);
-                lastIsSpace = c == ' ';
-            }
+        try {
+            System.out.println(
+                    new MIPSFileConverter(
+                       new FileReader(fileName)
+                    ).convertContents(MIPSStringType.Hex)[1]
+            );
+        } catch(Exception e) {
+            e.printStackTrace();
         }
-
-        return ans.toString();
     }
 }
