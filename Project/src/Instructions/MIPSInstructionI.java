@@ -11,6 +11,7 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
     private final int rs;
     private final int rt;
     private final int imm;
+    private boolean formatHex;
 
     public MIPSInstructionI(String str, MIPSStringType type) {
         if(type == MIPSStringType.String) {
@@ -37,6 +38,7 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
 
     private int getIntValue(String s) {
         if(s.startsWith("0x")) {
+            formatHex = true;
             return Integer.parseInt(s.substring(2), 16);
         } else if(s.startsWith("$")) {
             return RegisterUtil.getValue(s);
@@ -65,6 +67,7 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
                         if(ans[3].isEmpty()) {
                             ans[3] = "0";
                         }
+
                         startAdding = true;
                     } else if(arr[2].charAt(i) == ')') {
                         break;
@@ -86,12 +89,61 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
         }
     }
 
+    private void appendAddress(StringBuilder sb) {
+        if(formatHex) {
+            sb.append("0x").append(Integer.toHexString(imm));
+        } else {
+            sb.append(imm);
+        }
+    }
+
     @Override
     public String toString() {
-        return OpCodeUtil.getString(op)
-                + " " + RegisterUtil.getString(rt)
-                + ", " + RegisterUtil.getString(rs)
-                + ", " + imm;
+        String opCode = OpCodeUtil.getString(op);
+
+        StringBuilder ans = new StringBuilder(opCode);
+        ans.append(" ");
+        switch(opCode) {
+            case "beq":
+            case "bne":
+                ans.append(RegisterUtil.getString(rs))
+                        .append(", ")
+                        .append(RegisterUtil.getString(rt))
+                        .append(", ");
+
+                appendAddress(ans);
+                break;
+            case "lui":
+            case "lw":
+            case "sw":
+                ans.append(RegisterUtil.getString(rt))
+                    .append(", ");
+
+                if(!opCode.equals("lui") && RegisterUtil.isRegisterValue(rs)) {
+                    if(imm != 0) {
+                        appendAddress(ans);
+                    }
+
+                    ans.append("(")
+                        .append(RegisterUtil.getString(rs))
+                        .append(")");
+                } else {
+                    appendAddress(ans);
+                }
+
+                break;
+            default:
+                ans.append(RegisterUtil.getString(rt))
+                        .append(", ")
+                        .append(RegisterUtil.getString(rs))
+                        .append(", ");
+
+                appendAddress(ans);
+
+                break;
+        }
+
+        return ans.toString();
     }
 
     @Override
