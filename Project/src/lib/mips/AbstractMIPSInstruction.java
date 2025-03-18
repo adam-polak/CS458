@@ -1,6 +1,19 @@
 package lib.mips;
 
 public abstract class AbstractMIPSInstruction implements MIPSInstruction {
+    public String convert(MIPSStringType format) {
+        switch(format) {
+            case Binary:
+                return toBinary();
+            case Hex:
+                return toString();
+            case String:
+                return toString();
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
     @Override
     public String toHex() {
         char[] arr = toBinary().toCharArray();
@@ -29,6 +42,9 @@ public abstract class AbstractMIPSInstruction implements MIPSInstruction {
 
         return sb.toString();
     }
+
+    @Override
+    public abstract String toString();
 
     protected String[] getPartsOfAsmString(String str) {
         String[] arr = str.split(" ");

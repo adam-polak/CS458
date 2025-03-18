@@ -1,8 +1,6 @@
 package Instructions;
 
-import lib.mips.AbstractMIPSInstruction;
-import lib.mips.MIPSStringType;
-import lib.mips.OpCodeUtil;
+import lib.mips.*;
 
 public class MIPSInstructionJ extends AbstractMIPSInstruction {
 
@@ -21,6 +19,12 @@ public class MIPSInstructionJ extends AbstractMIPSInstruction {
         } else {
             throw new UnsupportedOperationException();
         }
+    }
+
+    @Override
+    public String toString() {
+        return OpCodeUtil.getString(op)
+                + " " + Integer.toHexString(inst_index);
     }
 
     @Override
