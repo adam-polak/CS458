@@ -29,7 +29,6 @@ public class MIPSFileConverter {
         boolean lastIsSpace = false;
         for(char c : arr) {
             if(c == '#') break;
-            else if(c == '\t') continue;
             else if(c != ' ' || !lastIsSpace) {
                 sb.append(c);
                 lastIsSpace = c == ' ';
@@ -37,7 +36,7 @@ public class MIPSFileConverter {
         }
 
         str = sb.toString().trim();
-        if(str.isEmpty() || str.startsWith(".") || str.endsWith(":")) {
+        if(str.isEmpty() || str.startsWith(".")) {
             return null;
         } else {
             return str;
@@ -57,10 +56,10 @@ public class MIPSFileConverter {
         int index = -1;
         try {
             while((line = bufferedReader.readLine()) != null) {
-                if(line.startsWith(".")) {
+                if (line.startsWith(".")) {
                     index++;
                     sb = new StringBuilder();
-                    if(index > 0) {
+                    if (index > 0) {
                         ans[index] = sb.toString();
                     }
 
@@ -68,14 +67,28 @@ public class MIPSFileConverter {
                 }
 
                 line = cleanLine(line);
-                if(index < 1 || line == null) {
+                if (index < 0 || line == null) {
                     continue;
                 }
 
-                try {
-                    MIPSInstruction ins = MIPSInstructionFactory.create(line);
-                    sb.append(ins.convert(format)).append('\n');
-                } catch(Exception ignored) {}
+                if(index == 0) {
+                    // TODO
+                        // append data to stringbuilder
+                } else if(line.endsWith(":")) {
+                    // TODO
+                        // keep track of labels and replace
+                        // their references in the assembly code
+                        // to the correct address
+                        // NOTE:
+                        // -currently not possible with this format
+                        // -will have to create a loop before this to find
+                        // and keep track of labels
+                } else {
+                    try {
+                        MIPSInstruction ins = MIPSInstructionFactory.create(line);
+                        sb.append(ins.convert(format)).append('\n');
+                    } catch (Exception ignored) {}
+                }
             }
 
             ans[index] = sb.toString();
