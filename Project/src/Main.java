@@ -6,12 +6,12 @@ import java.io.FileReader;
 
 public class Main {
     public static void main(String[] args) {
-        String fileName = args[0];
+        String filePath = args[0];
 
         try {
             System.out.println(
                     new MIPSFileConverter(
-                       new FileReader(fileName)
+                       new FileReader(filePath)
                     ).convertContents(MIPSStringType.Hex)[1]
             );
         } catch(Exception e) {
