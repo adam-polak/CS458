@@ -1,4 +1,5 @@
 import lib.files.MIPSFileConverter;
+import lib.mips.MIPSInstructionFactory;
 import lib.mips.MIPSStringType;
 
 import java.io.FileReader;

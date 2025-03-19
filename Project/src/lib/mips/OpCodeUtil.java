@@ -21,6 +21,10 @@ public class OpCodeUtil {
         put("sub", 0);
         put("sw", 43);
         put("syscall", 0);
+        put("li", -1);
+        put("la", -1);
+        put("blt", -1);
+        put("move", -1);
     }};
 
     public static int getValue(String str) {
@@ -28,8 +32,8 @@ public class OpCodeUtil {
     }
 
     public static String getString(int value) {
-        if(value == 0) {
-            throw new IllegalArgumentException("Cannot get op code string for 0");
+        if(value == 0 || value == -1) {
+            throw new IllegalArgumentException("Cannot get op code string for 0 or -1");
         }
 
         for(Map.Entry<String, Integer> entry : map.entrySet()) {
@@ -58,6 +62,8 @@ public class OpCodeUtil {
                 return MIPSInstructionType.I;
             case 2:
                 return MIPSInstructionType.J;
+            case -1:
+                return MIPSInstructionType.PSEUDO;
             default:
                 throw new IllegalArgumentException("Op code value not recognized");
         }

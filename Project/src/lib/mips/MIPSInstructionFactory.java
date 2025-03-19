@@ -2,6 +2,7 @@ package lib.mips;
 
 import Instructions.MIPSInstructionI;
 import Instructions.MIPSInstructionJ;
+import Instructions.MIPSInstructionPSEUDO;
 import Instructions.MIPSInstructionR;
 
 public class MIPSInstructionFactory {
@@ -46,6 +47,8 @@ public class MIPSInstructionFactory {
                 return new MIPSInstructionI(str, MIPSStringType.String);
             case J:
                 return new MIPSInstructionJ(str, MIPSStringType.String);
+            case PSEUDO:
+                return new MIPSInstructionPSEUDO(str, MIPSStringType.String);
             default:
                 throw new IllegalArgumentException("Not a valid instruction start");
         }
