@@ -103,12 +103,11 @@ public class MIPSInstructionPSEUDO extends AbstractMIPSInstruction {
     }
 
     private int convertToInt(String str) {
-        return Integer.parseInt(
-                str,
-                str.startsWith("0x")
-                ? 16
-                : 10
-        );
+        if(str.startsWith("0x")) {
+            return Integer.parseInt(str.substring(2), 16);
+        } else {
+            return Integer.parseInt(str);
+        }
     }
 
     private String toType(MIPSStringType type) {
