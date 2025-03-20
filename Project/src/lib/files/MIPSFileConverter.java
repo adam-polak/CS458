@@ -135,6 +135,8 @@ public class MIPSFileConverter {
                         throw new Exception("Duplicate data label");
                     }
 
+                    value += '\0'; // add null byte
+
                     _dataValueMap.put(key, value);
                     _dataLabelAddresses.add(key);
                 } else if(line.endsWith(":")) {
@@ -147,41 +149,35 @@ public class MIPSFileConverter {
                         // -will have to create a loop before this to find
                         // and keep track of labels
                 } else {
-                    try {
-                        String[] arr = line.split(" ");
-                        if(_dataValueMap.get(arr[arr.length - 1]) != null) {
-                            StringBuilder lineBuilder = new StringBuilder();
-                            for (int i = 0; i < arr.length - 1; i++) {
-                                lineBuilder.append(arr[i]).append(' ');
-                            }
-
-                            // data addresses start at 0x10010000 for MIPS
-                            int addr = Integer.parseInt("10010000", 16);
-                            for(int i = 0; i < _dataLabelAddresses.size(); i++) {
-                                if (_dataLabelAddresses.get(i).equals(arr[arr.length - 1])) {
-                                    lineBuilder.append("0x").append(Integer.toHexString(addr));
-                                    break;
-                                } else {
-                                    // TODO
-                                    // -add to address based on how large the value is in the
-                                    // data value map
-                                }
-                            }
-
-                            line = lineBuilder.toString();
+                    String[] arr = line.split(" ");
+                    if(_dataValueMap.get(arr[arr.length - 1]) != null) {
+                        StringBuilder lineBuilder = new StringBuilder();
+                        for (int i = 0; i < arr.length - 1; i++) {
+                            lineBuilder.append(arr[i]).append(' ');
                         }
 
-                        MIPSInstruction ins = MIPSInstructionFactory.create(line);
-                        sb.append(ins.convert(format)).append('\n');
-                    } catch (Exception ignored) {
-                        if(line.startsWith("la")) {
-                            ignored.printStackTrace();
+                        // data addresses start at 0x10010000 for MIPS
+                        int addr = Integer.parseInt("10010000", 16);
+                        for(int i = 0 ; i < _dataLabelAddresses.size(); i++) {
+                            if(_dataLabelAddresses.get(i).equals(arr[arr.length - 1])) {
+                                lineBuilder.append("0x").append(Integer.toHexString(addr));
+                                break;
+                            } else {
+                                addr += _dataValueMap.get(_dataLabelAddresses.get(i)).getBytes().length;
+                            }
                         }
+
+                        line = lineBuilder.toString();
                     }
+
+                    MIPSInstruction ins = MIPSInstructionFactory.create(line);
+                    sb.append(ins.convert(format)).append('\n');
                 }
             }
 
-            ans[index] = sb.toString();
+            if(index > -1) {
+                ans[index] = sb.toString();
+            }
         } catch(Exception e) {
             _logger.log(Level.SEVERE, "Failed while reading file");
             try {
