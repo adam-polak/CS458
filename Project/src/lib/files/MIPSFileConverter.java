@@ -6,6 +6,7 @@ import lib.mips.MIPSStringType;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -97,6 +98,25 @@ public class MIPSFileConverter {
         return sb.toString();
     }
 
+    private void dumpDataMapIntoStringBuilder(StringBuilder sb) {
+        StringBuilder dataStr = new StringBuilder();
+        for(String key : _dataLabelAddresses) {
+            dataStr.append(_dataValueMap.get(key));
+        }
+
+        String completeDataString = dataStr.toString();
+        byte[] arr = completeDataString.getBytes();
+        for(int i = 0; i < arr.length; i += 4) {
+            int size = Math.min(4, arr.length - i);
+
+            for(int j = size - 1; j >= 0; j--) {
+                sb.append(String.format("%02x", arr[i + j] & 0xFF));
+            }
+
+            sb.append('\n');
+        }
+    }
+
     public String[] convertContents(MIPSStringType format) {
         if(format == null) {
             throw new NullPointerException("Must provide content format type");
@@ -112,10 +132,12 @@ public class MIPSFileConverter {
             while((line = bufferedReader.readLine()) != null) {
                 if (line.startsWith(".")) {
                     index++;
-                    sb = new StringBuilder();
                     if (index > 0) {
-                        ans[index] = sb.toString();
+                        dumpDataMapIntoStringBuilder(sb);
+                        ans[index - 1] = sb.toString();
                     }
+
+                    sb = new StringBuilder();
 
                     continue;
                 }
@@ -179,6 +201,7 @@ public class MIPSFileConverter {
                 ans[index] = sb.toString();
             }
         } catch(Exception e) {
+            e.printStackTrace();
             _logger.log(Level.SEVERE, "Failed while reading file");
             try {
                 bufferedReader.close();
