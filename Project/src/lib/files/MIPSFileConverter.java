@@ -8,7 +8,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -45,11 +47,14 @@ public class MIPSFileConverter {
         }
 
         str = sb.toString().trim();
-        if(str.isEmpty() || str.startsWith(".")) {
+
+        if(str.isEmpty()) {
             return null;
-        } else {
-            return str;
         }
+        if(str.startsWith(".") && !str.startsWith(".text") || str.startsWith(".data")) {
+            return null;
+        }
+        return str;
     }
 
     private String getAsciizKey(String str) {
@@ -128,84 +133,127 @@ public class MIPSFileConverter {
 
         String[] ans = new String[2];
         int index = -1;
+        List<String> allLines = new ArrayList<>();
         try {
-            while((line = bufferedReader.readLine()) != null) {
-                if (line.startsWith(".")) {
+            // for uncleaned line
+            String rawLine;
+            while ((rawLine = bufferedReader.readLine()) != null) {
+                allLines.add(rawLine);
+            }
+            bufferedReader.close();
+
+            _labelMap.clear();
+            int currentInstructionIndex = 0;
+            boolean inTextSection = false;
+
+            for (String raw : allLines) {
+                String clean = cleanLine(raw);
+                if (clean == null) continue;
+                if (clean.startsWith(".text")) {
+                    inTextSection = true;
+                    continue;
+                }
+                if (!inTextSection) continue;
+
+                if (clean.endsWith(":")) {
+                    String label = clean.substring(0, clean.length() - 1);
+                    _labelMap.put(label, currentInstructionIndex);
+                } else {
+                    currentInstructionIndex++;
+                }
+            }
+
+            index = -1;
+            sb = null;
+            currentInstructionIndex = 0;
+
+            for (String raw : allLines) {
+                if (raw.startsWith(".")) {
                     index++;
                     if (index > 0) {
                         dumpDataMapIntoStringBuilder(sb);
                         ans[index - 1] = sb.toString();
                     }
-
                     sb = new StringBuilder();
-
                     continue;
                 }
+                line = cleanLine(raw);
+                if(line == null || index < 0)continue;
 
-                line = cleanLine(line);
-                if (index < 0 || line == null) {
-                    continue;
-                }
-
-                if(index == 0) {
+                if (index == 0) {
                     String key = getAsciizKey(line);
                     String value = getAsciizString(line);
-
-                    if(key == null || value == null) {
+                    if (key == null || value == null) {
                         throw new Exception("Format for .data section is invalid");
-                    } else if(_dataValueMap.get(key) != null) {
-                        throw new Exception("Duplicate data label");
+                    } else if (_dataValueMap.containsKey(key)) {
+                        throw new Exception("duplicate label");
                     }
-
-                    value += '\0'; // add null byte
-
+                    value += "\0";
                     _dataValueMap.put(key, value);
                     _dataLabelAddresses.add(key);
-                } else if(line.endsWith(":")) {
-                    // TODO
-                        // keep track of labels and replace
-                        // their references in the assembly code
-                        // to the correct address
-                        // NOTE:
-                        // -currently not possible with this format
-                        // -will have to create a loop before this to find
-                        // and keep track of labels
+                } else if (line.endsWith(":")) {
+                    continue;
                 } else {
-                    String[] arr = line.split(" ");
-                    if(_dataValueMap.get(arr[arr.length - 1]) != null) {
-                        StringBuilder lineBuilder = new StringBuilder();
-                        for (int i = 0; i < arr.length - 1; i++) {
-                            lineBuilder.append(arr[i]).append(' ');
+                    line = line.trim();
+                    String[] arr = line.split("[,\\s]+");
+
+                    String op = arr[0];
+                    String[] args = new String[arr.length - 1];
+                    System.arraycopy(arr, 1, args, 0, args.length);
+
+                    for (int i = 0; i < args.length; i++) {
+                        String token = args[i];
+
+                        if ((op.equals("beq") || op.equals("bne")) && i == 2 && _labelMap.containsKey(token)) {
+                            int target = _labelMap.get(token);
+                            int offset = target - (currentInstructionIndex + 1);
+
+                            args[i] = String.valueOf(offset);
+                        } else if (op.equals("j") && i == 0 && _labelMap.containsKey(token)) {
+                            int target = _labelMap.get(token);
+                            String hexAddr = "0x" + Integer.toHexString(target);
+
+                            args[i] = hexAddr;
                         }
 
-                        // data addresses start at 0x10010000 for MIPS
-                        int addr = Integer.parseInt("10010000", 16);
-                        for(int i = 0 ; i < _dataLabelAddresses.size(); i++) {
-                            if(_dataLabelAddresses.get(i).equals(arr[arr.length - 1])) {
-                                lineBuilder.append("0x").append(Integer.toHexString(addr));
-                                break;
-                            } else {
-                                addr += _dataValueMap.get(_dataLabelAddresses.get(i)).getBytes().length;
+                        if (_dataValueMap.containsKey(token)) {
+                            int addr = Integer.parseInt("10010000", 16);
+                            for (String key : _dataLabelAddresses) {
+                                if (key.equals(token)) {
+                                    String hexAddr = "0x" + Integer.toHexString(addr);
+
+                                    args[i] = hexAddr;
+                                    break;
+                                }
+                                addr += _dataValueMap.get(key).getBytes().length;
                             }
                         }
-
-                        line = lineBuilder.toString();
                     }
+
+                    line = op;
+                    if (args.length > 0) {
+                        line += " " + String.join(", ", args);
+                    }
+
+
 
                     MIPSInstruction ins = MIPSInstructionFactory.create(line);
                     sb.append(ins.convert(format)).append('\n');
+
+                    currentInstructionIndex++;
                 }
             }
 
-            if(index > -1) {
+            if (index > -1) {
                 ans[index] = sb.toString();
             }
-        } catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
             _logger.log(Level.SEVERE, "Failed while reading file");
             try {
                 bufferedReader.close();
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 _logger.log(Level.SEVERE, "Failed to close buffered reader");
             }
         }
