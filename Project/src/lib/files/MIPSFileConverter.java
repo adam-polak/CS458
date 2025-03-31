@@ -9,9 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -57,14 +55,11 @@ public class MIPSFileConverter {
         }
 
         str = sb.toString().trim();
-
-        if(str.isEmpty()) {
+        if(str.isEmpty() || str.startsWith(".")) {
             return null;
+        } else {
+            return str;
         }
-        if(str.startsWith(".") && !str.startsWith(".text") || str.startsWith(".data")) {
-            return null;
-        }
-        return str;
     }
 
     private String getAsciizKey(String str) {
@@ -227,7 +222,6 @@ public class MIPSFileConverter {
 
         String[] ans = new String[2];
         int index = -1;
-        List<String> allLines = new ArrayList<>();
         try {
             int curAddr = 0x00400000;
             while((line = bufferedReader.readLine()) != null) {
@@ -237,11 +231,11 @@ public class MIPSFileConverter {
                         dumpDataMapIntoStringBuilder(sb);
                         ans[index - 1] = sb.toString();
                     }
+
                     sb = new StringBuilder();
+
                     continue;
                 }
-                line = cleanLine(raw);
-                if(line == null || index < 0)continue;
 
                 line = cleanLine(line);
                 if (index < 0 || line == null) {
@@ -256,14 +250,14 @@ public class MIPSFileConverter {
                 }
             }
 
-            if (index > -1) {
+            if(index > -1) {
                 ans[index] = sb.toString();
             }
         } catch(Exception e) {
             _logger.log(Level.SEVERE, "Failed while reading file");
             try {
                 bufferedReader.close();
-            } catch (Exception ex) {
+            } catch(Exception ex) {
                 _logger.log(Level.SEVERE, "Failed to close buffered reader");
             }
         }
