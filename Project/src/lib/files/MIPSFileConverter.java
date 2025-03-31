@@ -17,9 +17,9 @@ public class MIPSFileConverter {
 
     private static final Logger _logger = Logger.getLogger(MIPSFileConverter.class.getName());
     private final String _file;
-    private ArrayList<String> _dataLabelAddresses;
-    private HashMap<String, String> _dataValueMap;
-    private HashMap<String, Integer> _labelMap;
+    private final ArrayList<String> _dataLabelAddresses;
+    private final HashMap<String, String> _dataValueMap;
+    private final HashMap<String, Integer> _labelMap;
 
     public MIPSFileConverter(FileReader reader) throws IOException {
         StringBuilder sb = new StringBuilder();
@@ -244,16 +244,7 @@ public class MIPSFileConverter {
 
                 if(index == 0) {
                     addToDataMap(line);
-                } else if(line.endsWith(":")) {
-                    // TODO
-                        // keep track of labels and replace
-                        // their references in the assembly code
-                        // to the correct address
-                        // NOTE:
-                        // -currently not possible with this format
-                        // -will have to create a loop before this to find
-                        // and keep track of labels
-                } else {
+                } else if(!line.endsWith(":")) {
                     appendInstructionHex(sb, line, curAddr, format);
                     curAddr += 4;
                 }
@@ -263,7 +254,6 @@ public class MIPSFileConverter {
                 ans[index] = sb.toString();
             }
         } catch(Exception e) {
-            e.printStackTrace();
             _logger.log(Level.SEVERE, "Failed while reading file");
             try {
                 bufferedReader.close();
