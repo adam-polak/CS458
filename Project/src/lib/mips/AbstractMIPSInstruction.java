@@ -65,10 +65,7 @@ public abstract class AbstractMIPSInstruction implements MIPSInstruction {
     protected String[] getPartsOfAsmString(String str) {
         String[] arr = str.split(" ");
         for(int i = 1; i < arr.length - 1; i++) {
-            arr[i] = arr[i].trim();
-            if(arr[i].endsWith(",")) {
-                arr[i] = arr[i].substring(0, arr[i].length() - 1);
-            }
+            arr[i] = arr[i].substring(0, arr[i].length() - 1); // trim comma
         }
 
         return arr;
