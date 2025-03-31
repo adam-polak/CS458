@@ -3,6 +3,7 @@ import lib.mips.MIPSStringType;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class Main {
@@ -13,7 +14,24 @@ public class Main {
                 new FileReader(filePath)
         ).convertContents(MIPSStringType.Hex);
 
-        System.out.println(".data\n" + sections[0]);
-        System.out.println(".text\n" + sections[1]);
+        StringBuilder dir = new StringBuilder();
+        String[] arr = filePath.split("/");
+        for(int i = 0; i < arr.length - 1; i++) {
+            dir.append(arr[i]).append("/");
+        }
+
+        String fileName = arr[arr.length - 1].split("\\.")[0];
+
+        FileWriter data = new FileWriter(
+                dir.toString() + fileName + ".data"
+        );
+        FileWriter text = new FileWriter(
+                dir.toString() + fileName + ".text"
+        );
+
+        data.write(sections[0]);
+        data.close();
+        text.write(sections[1]);
+        text.close();
     }
 }
