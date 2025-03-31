@@ -22,10 +22,10 @@ public class Main {
         String fileName = arr[arr.length - 1].split("\\.")[0];
 
         FileWriter data = new FileWriter(
-                dir.toString() + fileName + ".data"
+                dir + fileName + ".data"
         );
         FileWriter text = new FileWriter(
-                dir.toString() + fileName + ".text"
+                dir + fileName + ".text"
         );
 
         data.write(sections[0]);
