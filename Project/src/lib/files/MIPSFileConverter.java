@@ -6,6 +6,7 @@ import lib.mips.MIPSStringType;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,6 +123,14 @@ public class MIPSFileConverter {
         }
     }
 
+    private void writeToFile(String fileName, String content) {
+        try(FileWriter writer = new FileWriter(fileName)) {
+            writer.write(content);
+        }catch(Exception e) {
+            _logger.log(Level.SEVERE, "Error writing to file " + fileName, e);
+        }
+    }
+
     public String[] convertContents(MIPSStringType format) {
         if(format == null) {
             throw new NullPointerException("Must provide content format type");
@@ -211,7 +220,10 @@ public class MIPSFileConverter {
                             args[i] = String.valueOf(offset);
                         } else if (op.equals("j") && i == 0 && _labelMap.containsKey(token)) {
                             int target = _labelMap.get(token);
-                            String hexAddr = "0x" + Integer.toHexString(target);
+                            int address = (target * 4) + 0x00400000;
+                            int encodedAddress = address >>> 2;
+                            String hexAddr = "0x" + Integer.toHexString(encodedAddress);
+
 
                             args[i] = hexAddr;
                         }
@@ -247,6 +259,9 @@ public class MIPSFileConverter {
             if (index > -1) {
                 ans[index] = sb.toString();
             }
+
+            writeToFile(".data.txt",ans[0] != null ? ans[0] : "");
+            writeToFile(".text.txt",ans[1] != null ? ans[1] : "");
 
         } catch (Exception e) {
             e.printStackTrace();
