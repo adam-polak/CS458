@@ -32,6 +32,12 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
             }
 
             imm = getIntValue(arr[3]);
+        } else if(type == MIPSStringType.Hex || type == MIPSStringType.Binary) {
+            int value = getValue(str, type);
+            op = value >> 26;
+            rs = (value & ((1 << 26) - 1)) >> 21;
+            rt = (value & ((1 << 21) - 1)) >> 16;
+            imm = value & ((1 << 16) - 1);
         } else {
             throw new UnsupportedOperationException();
         }
@@ -100,52 +106,67 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
 
     @Override
     public String toString() {
-        String opCode = OpCodeUtil.getString(op);
-
-        StringBuilder ans = new StringBuilder(opCode);
-        ans.append(" ");
-        switch(opCode) {
-            case "beq":
-            case "bne":
-                ans.append(RegisterUtil.getString(rs))
-                        .append(", ")
-                        .append(RegisterUtil.getString(rt))
-                        .append(", ");
-
-                appendAddress(ans);
-                break;
-            case "lui":
-            case "lw":
-            case "sw":
-                ans.append(RegisterUtil.getString(rt))
-                    .append(", ");
-
-                if(!opCode.equals("lui") && RegisterUtil.isRegisterValue(rs)) {
-                    if(imm != 0) {
-                        appendAddress(ans);
-                    }
-
-                    ans.append("(")
-                        .append(RegisterUtil.getString(rs))
-                        .append(")");
-                } else {
-                    appendAddress(ans);
-                }
-
-                break;
-            default:
-                ans.append(RegisterUtil.getString(rt))
-                        .append(", ")
-                        .append(RegisterUtil.getString(rs))
-                        .append(", ");
-
-                appendAddress(ans);
-
-                break;
-        }
-
-        return ans.toString();
+        return OpCodeUtil.getString(op) + " " + '{' +
+                "opcode: " +
+                hexStrLength(op, 2) +
+                ", " +
+                "rs(base): " +
+                hexStrLength(rs, 2) +
+                ", rt: " +
+                hexStrLength(rt, 2) +
+                ", immediate(offset): " +
+                hexStrLength(imm, 4) +
+                '}';
     }
+//        switch(opCode) {
+//            case "beq":
+//            case "bne":
+//                ans.append("rs(base): ")
+//                        .append(hexStrLength(rs, 2))
+//                        .append(", rt: ")
+//                        .append(hexStrLength(rt, 2))
+//                        .append(", immediate(offset): ")
+//                        .append(hexStrLength(imm, 4))
+//                        .append("}");
+//
+//                break;
+//            case "lui":
+//            case "lw":
+//            case "sw":
+//            default:
+//                ans.append("rt: ")
+//                        .append(hexStrLength(rt, 2))
+//                        .append(", rs: ")
+//                        .append(hexStrLength(rs, 2))
+//                        .append(", immediate(offset): ")
+//                        .append(hexStrLength(imm, 4))
+//                        .append("}");
+//
+//                break;
+//                if(!opCode.equals("lui") && RegisterUtil.isRegisterValue(rs)) {
+//                    if(imm != 0) {
+//                        appendAddress(ans);
+//                    }
+//
+//                    ans.append("(")
+//                        .append(RegisterUtil.getString(rs))
+//                        .append(")");
+//                } else {
+//                    appendAddress(ans);
+//                }
+//            default:
+//                ans.append(RegisterUtil.getString(rt))
+//                        .append(", ")
+//                        .append(RegisterUtil.getString(rs))
+//                        .append(", ");
+//
+//                appendAddress(ans);
+//
+//                break;
+//        }
+//
+//        return ans.toString();
+//    }
 
     @Override
     protected int getFullInstructionInt() {

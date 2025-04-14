@@ -1,9 +1,6 @@
 package Instructions;
 
-import lib.mips.AbstractMIPSInstruction;
-import lib.mips.FunctUtil;
-import lib.mips.MIPSStringType;
-import lib.mips.RegisterUtil;
+import lib.mips.*;
 
 public class MIPSInstructionR extends AbstractMIPSInstruction {
     private final int op;
@@ -32,6 +29,14 @@ public class MIPSInstructionR extends AbstractMIPSInstruction {
             rd = RegisterUtil.getValue(arr[1]);
             shamt = 0;
             funct = FunctUtil.getValue(arr[0]);
+        } else if(type == MIPSStringType.Hex || type == MIPSStringType.Binary) {
+            int val = getValue(str, type);
+            op = 0;
+            rs = (val & ((1 << 26) - 1)) >> 21;
+            rt = (val & ((1 << 21) - 1)) >> 16;
+            rd = (val & ((1 << 16) - 1)) >> 11;
+            shamt = 0;
+            funct = val & ((1 << 6) - 1);
         } else {
             throw new UnsupportedOperationException("MIPSString type not implemented yet");
         }
@@ -40,13 +45,32 @@ public class MIPSInstructionR extends AbstractMIPSInstruction {
     @Override
     public String toString() {
         if("syscall".equals(FunctUtil.getString(funct))) {
-            return "syscall";
+            return "syscall {opcode: "
+                    + hexStrLength(op, 2)
+                    + ", code: 000000, funct: "
+                    + hexStrLength(funct, 2)
+                    + "}";
         }
 
         return FunctUtil.getString(funct)
-                + " " + RegisterUtil.getString(rd)
-                + ", " + RegisterUtil.getString(rs)
-                + ", " + RegisterUtil.getString(rt);
+                + " {opcode: "
+                + hexStrLength(op, 2)
+                + ", rs: "
+                + hexStrLength(rs, 2)
+                + ", rt: "
+                + hexStrLength(rt, 2)
+                + ", rd: "
+                + hexStrLength(rd, 2)
+                + ", shmt: "
+                + hexStrLength(shamt, 2)
+                + ", funct: "
+                + hexStrLength(funct, 2)
+                + "}";
+//
+//        return FunctUtil.getString(funct)
+//                + " " + RegisterUtil.getString(rd)
+//                + ", " + RegisterUtil.getString(rs)
+//                + ", " + RegisterUtil.getString(rt);
     }
 
     @Override

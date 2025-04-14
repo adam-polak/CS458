@@ -55,7 +55,21 @@ public class MIPSInstructionFactory {
     }
 
     private static MIPSInstruction fromHex(String str) {
-        throw new UnsupportedOperationException();
+        if(str.startsWith(("0x"))) {
+            str = str.substring(2);
+        }
+
+        int op = (Integer.parseInt(str, 16)) >> 26;
+        switch(OpCodeUtil.getType(op)) {
+            case R:
+                return new MIPSInstructionR(str, MIPSStringType.Hex);
+            case I:
+                return new MIPSInstructionI(str, MIPSStringType.Hex);
+            case J:
+                return new MIPSInstructionJ(str, MIPSStringType.Hex);
+            default:
+                throw new IllegalArgumentException("Not a valid op code");
+        }
     }
 
     private static MIPSInstruction fromBinary(String str) {

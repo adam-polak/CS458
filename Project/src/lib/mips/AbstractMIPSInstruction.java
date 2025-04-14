@@ -74,5 +74,30 @@ public abstract class AbstractMIPSInstruction implements MIPSInstruction {
         return arr;
     }
 
+    protected int getValue(String str, MIPSStringType type) {
+        int x = -1;
+        if(type == MIPSStringType.Hex) {
+           x = Integer.parseInt(str, 16);
+        } else {
+           x = Integer.parseInt(str, 2);
+        }
+
+        if(x == -1) {
+            throw new IllegalArgumentException("Cannot parse string");
+        }
+
+        return x;
+    }
+
+    protected String hexStrLength(int x, int length) {
+        String hex = Integer.toHexString(x);
+        StringBuilder pad = new StringBuilder();
+        while(hex.length() + pad.length() < length) {
+            pad.append('0');
+        }
+
+        return pad + hex;
+    }
+
     protected abstract int getFullInstructionInt();
 }

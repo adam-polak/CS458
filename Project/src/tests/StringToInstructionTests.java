@@ -5,7 +5,7 @@ import lib.mips.MIPSInstructionFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ProgramTest {
+public class StringToInstructionTests {
     @Test
     public void test0() {
         String str = "sub $t5, $s1, $s2";

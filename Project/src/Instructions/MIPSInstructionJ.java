@@ -19,6 +19,11 @@ public class MIPSInstructionJ extends AbstractMIPSInstruction {
             } else {
                 inst_index = Integer.parseInt(arr[1]);
             }
+        } else if(type == MIPSStringType.Hex || type == MIPSStringType.Binary) {
+            int val = getValue(str, type);
+            op = val >> 26;
+            inst_index = val & ((1 << 26) - 1);
+            formatHex = false;
         } else {
             throw new UnsupportedOperationException();
         }
@@ -27,11 +32,17 @@ public class MIPSInstructionJ extends AbstractMIPSInstruction {
     @Override
     public String toString() {
         return OpCodeUtil.getString(op)
-                + (
-                    formatHex
-                    ? " 0x" + Integer.toHexString(inst_index)
-                    : inst_index
-                );
+                + " {opcode: "
+                + hexStrLength(op, 2)
+                + ", code: "
+                + hexStrLength(inst_index, 7)
+                + "}";
+//        return OpCodeUtil.getString(op)
+//                + (
+//                    formatHex
+//                    ? " 0x" + Integer.toHexString(inst_index)
+//                    : inst_index
+//                );
     }
 
     @Override
