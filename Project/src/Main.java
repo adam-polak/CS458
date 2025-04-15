@@ -4,9 +4,8 @@ import lib.mips.MIPSStringType;
 
 public class Main {
     public static void main(String[] args) {
-        String test = "2743006a";
+        String test = args[0];
         MIPSInstruction ins = MIPSInstructionFactory.create(test, MIPSStringType.Hex);
-
         System.out.println(ins.toString());
     }
 }
