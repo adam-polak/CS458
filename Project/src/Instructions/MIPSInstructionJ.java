@@ -20,9 +20,9 @@ public class MIPSInstructionJ extends AbstractMIPSInstruction {
                 inst_index = Integer.parseInt(arr[1]);
             }
         } else if(type == MIPSStringType.Hex || type == MIPSStringType.Binary) {
-            int val = getValue(str, type);
-            op = val >> 26;
-            inst_index = val & ((1 << 26) - 1);
+            long val = getValue(str, type);
+            op = (int)(val >> 26);
+            inst_index = (int)(val & ((1 << 26) - 1));
             formatHex = false;
         } else {
             throw new UnsupportedOperationException();
@@ -34,7 +34,7 @@ public class MIPSInstructionJ extends AbstractMIPSInstruction {
         return OpCodeUtil.getString(op)
                 + " {opcode: "
                 + hexStrLength(op, 2)
-                + ", code: "
+                + ", index: "
                 + hexStrLength(inst_index, 7)
                 + "}";
 //        return OpCodeUtil.getString(op)

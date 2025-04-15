@@ -59,7 +59,7 @@ public class MIPSInstructionFactory {
             str = str.substring(2);
         }
 
-        int op = (Integer.parseInt(str, 16)) >> 26;
+        int op = (int)(Long.parseLong(str, 16) >> 26);
         switch(OpCodeUtil.getType(op)) {
             case R:
                 return new MIPSInstructionR(str, MIPSStringType.Hex);

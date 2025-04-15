@@ -33,11 +33,11 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
 
             imm = getIntValue(arr[3]);
         } else if(type == MIPSStringType.Hex || type == MIPSStringType.Binary) {
-            int value = getValue(str, type);
-            op = value >> 26;
-            rs = (value & ((1 << 26) - 1)) >> 21;
-            rt = (value & ((1 << 21) - 1)) >> 16;
-            imm = value & ((1 << 16) - 1);
+            long value = getValue(str, type);
+            op = (int)(value >> 26);
+            rs = (int)((value & ((1 << 26) - 1)) >> 21);
+            rt = (int)((value & ((1 << 21) - 1)) >> 16);
+            imm = (int)(value & ((1 << 16) - 1));
         } else {
             throw new UnsupportedOperationException();
         }

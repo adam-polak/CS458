@@ -74,12 +74,12 @@ public abstract class AbstractMIPSInstruction implements MIPSInstruction {
         return arr;
     }
 
-    protected int getValue(String str, MIPSStringType type) {
-        int x = -1;
+    protected long getValue(String str, MIPSStringType type) {
+        long x = -1;
         if(type == MIPSStringType.Hex) {
-           x = Integer.parseInt(str, 16);
+           x = Long.parseLong(str, 16);
         } else {
-           x = Integer.parseInt(str, 2);
+           x = Long.parseLong(str, 2);
         }
 
         if(x == -1) {
