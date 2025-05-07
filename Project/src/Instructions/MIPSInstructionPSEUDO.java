@@ -27,10 +27,10 @@ public class MIPSInstructionPSEUDO extends AbstractMIPSInstruction {
                 if(loadVal == 0) {
                     _instructions = new MIPSInstruction[]{
                             MIPSInstructionFactory.create(
-                                "addiu " + parts[1]
-                                    + ", $zero, 0x"
-                                    + Integer.toHexString(orVal),
-                                MIPSStringType.String
+                                    "addiu " + parts[1]
+                                            + ", $zero, 0x"
+                                            + Integer.toHexString(orVal),
+                                    MIPSStringType.String
                             )
                     };
                 } else {
@@ -56,42 +56,42 @@ public class MIPSInstructionPSEUDO extends AbstractMIPSInstruction {
                 int upper = value >> 16;
                 int lower = value & ((1 << 15) - 1);
                 _instructions = new MIPSInstruction[]{
-                    MIPSInstructionFactory.create(
-                      "lui $at, 0x"
-                            + Integer.toHexString(upper),
-                        MIPSStringType.String
-                    ),
-                    MIPSInstructionFactory.create(
-                        "ori " + parts[1]
-                            + ", $at, 0x"
-                            + Integer.toHexString(lower),
-                        MIPSStringType.String
-                    )
+                        MIPSInstructionFactory.create(
+                                "lui $at, 0x"
+                                        + Integer.toHexString(upper),
+                                MIPSStringType.String
+                        ),
+                        MIPSInstructionFactory.create(
+                                "ori " + parts[1]
+                                        + ", $at, 0x"
+                                        + Integer.toHexString(lower),
+                                MIPSStringType.String
+                        )
                 };
 
                 break;
             case "blt":
                 _instructions = new MIPSInstruction[]{
-                    MIPSInstructionFactory.create(
-                        "slt $at, "
-                            + parts[1] + ", "
-                            + parts[2],
-                        MIPSStringType.String
-                    ),
-                    MIPSInstructionFactory.create(
-                        "bne $at, $zero, "
-                            + parts[3],
-                        MIPSStringType.String
-                    )
+                        MIPSInstructionFactory.create(
+                                "slt $at, "
+                                        + parts[1] + ", "
+                                        + parts[2],
+                                MIPSStringType.String
+                        ),
+                        MIPSInstructionFactory.create(
+                                "bne $at, $zero, "
+                                        + parts[3],
+                                MIPSStringType.String
+                        )
                 };
 
                 break;
             case "move":
                 _instructions = new MIPSInstruction[]{
                         MIPSInstructionFactory.create(
-                            "add "
-                                    + parts[1] + ", "
-                                    + parts[2] + " $zero",
+                                "add "
+                                        + parts[1] + ", "
+                                        + parts[2] + " $zero",
                                 MIPSStringType.String
                         )
                 };

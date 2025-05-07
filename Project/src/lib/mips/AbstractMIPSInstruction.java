@@ -100,4 +100,9 @@ public abstract class AbstractMIPSInstruction implements MIPSInstruction {
     }
 
     protected abstract int getFullInstructionInt();
+
+
+
+
+
 }

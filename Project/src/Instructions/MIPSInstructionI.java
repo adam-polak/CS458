@@ -188,4 +188,26 @@ public class MIPSInstructionI extends AbstractMIPSInstruction {
 
         return inst;
     }
+
+    public String getName() {
+        return OpCodeUtil.getString(op);
+    }
+
+    public int getRs() {
+        return rs;
+    }
+
+    public int getRt() {
+        return rt;
+    }
+
+    public int getImmediate() {
+        return imm;
+    }
+
+
+
+
+
+
 }
