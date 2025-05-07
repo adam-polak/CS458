@@ -110,7 +110,7 @@ public class MileStone2_InstructionTest {
 
     @Test public void testJump() throws Exception {
         String text =
-                "08000004\n" + // j to instruction at index 4
+                "08000004\n" +
                         "00000000\n" +
                         "00000000\n" +
                         "00000000\n" +

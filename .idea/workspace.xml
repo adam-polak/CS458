@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="CS458:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4fd4dfb9-dcb3-46c3-ae60-cd58f77ce3ab" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/CS458_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/src/lib/files/MIPSProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/src/tests/MileStone2_InstructionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/CS458.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CS458.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionI.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionJ.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionJ.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionPSEUDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionPSEUDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/src/lib/mips/AbstractMIPSInstruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/lib/mips/AbstractMIPSInstruction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/src/lib/mips/MIPSInstructionFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/lib/mips/MIPSInstructionFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/src/lib/mips/OpCodeUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/lib/mips/OpCodeUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/lib/files/MIPSProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/lib/files/MIPSProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/lib/mips/MIPSInstruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/lib/mips/MIPSInstruction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/tests/MileStone2_InstructionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/tests/MileStone2_InstructionTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="test" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -68,6 +63,7 @@
   "keyToString": {
     "Downloaded.Files.Path.Enabled": "false",
     "JUnit.MileStone2_InstructionTest.executor": "Run",
+    "JUnit.MileStone2_InstructionTest.testJump.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
@@ -75,7 +71,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "real",
+    "git-widget-placeholder": "solo",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -88,6 +84,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\maste\IdeaProjects\CS458\out\artifacts\CS458_jar" />
+    </key>
+  </component>
   <component name="RunManager" selected="JUnit.MileStone2_InstructionTest">
     <configuration name="MileStone2_InstructionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CS458" />
@@ -100,6 +101,22 @@
       <option name="PACKAGE_NAME" value="tests" />
       <option name="MAIN_CLASS_NAME" value="tests.MileStone2_InstructionTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MileStone2_InstructionTest.testJump" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CS458" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tests" />
+      <option name="MAIN_CLASS_NAME" value="tests.MileStone2_InstructionTest" />
+      <option name="METHOD_NAME" value="testJump" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -135,6 +152,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.MileStone2_InstructionTest.testJump" />
       <item itemvalue="JUnit.MileStone2_InstructionTest" />
       <item itemvalue="JUnit.MileStone2_Test" />
       <item itemvalue="JUnit.Prog2Tests" />
@@ -142,6 +160,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.MileStone2_InstructionTest" />
+        <item itemvalue="JUnit.MileStone2_InstructionTest.testJump" />
         <item itemvalue="JUnit.Prog2Tests" />
         <item itemvalue="JUnit.MileStone2_Test" />
       </list>

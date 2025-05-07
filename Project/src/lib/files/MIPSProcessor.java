@@ -43,87 +43,134 @@ public class MIPSProcessor {
         }
     }
 
+
     public void run() {
-        while (!halted) {
+        while (!halted && pc < 0x00400000 + instructions.size() * 4) {
             int idx = (pc - 0x00400000) / 4;
 
             if (idx < 0 || idx >= instructions.size()) {
-                System.out.println("");
-                System.out.println("-- program finished running --");
                 return;
             }
 
             MIPSInstruction instr = instructions.get(idx);
-            int originalPC = pc;
-
-
-            pc += 4;
-            execute(instr, originalPC);
-
-
-            if (pc != originalPC + 4) {
-                continue;
+            if (instr == null) {
+                return;
             }
 
+            pc += 4;
+            execute(instr);
             registers[0] = 0;
         }
-
-        System.out.println("-- program is finished running --");
     }
 
-
-    private void execute(MIPSInstruction instr, int currentPC) {
+    private void execute(MIPSInstruction instr) {
         if (instr instanceof MIPSInstructionR r) {
             executeR(r);
         } else if (instr instanceof MIPSInstructionI i) {
-            executeI(i, currentPC);
+            executeI(i);
         } else if (instr instanceof MIPSInstructionJ j) {
-            executeJ(j, currentPC);
+            executeJ(j);
         } else if (instr instanceof MIPSInstructionPSEUDO p) {
-            for (String hex : p.toHex().split("\n")) {
-                execute(MIPSInstructionFactory.create(hex, MIPSStringType.Hex), currentPC);
+            for (String s : p.toHex().split("\n")) {
+                execute(MIPSInstructionFactory.create(s, MIPSStringType.Hex));
             }
         }
     }
 
     private void executeR(MIPSInstructionR instr) {
-        int rs = instr.getRs(), rt = instr.getRt(), rd = instr.getRd();
-        switch (instr.getName()) {
-            case "add": case "addu": registers[rd] = registers[rs] + registers[rt]; break;
-            case "sub": registers[rd] = registers[rs] - registers[rt]; break;
-            case "and": registers[rd] = registers[rs] & registers[rt]; break;
-            case "or":  registers[rd] = registers[rs] | registers[rt]; break;
-            case "slt": registers[rd] = (registers[rs] < registers[rt]) ? 1 : 0; break;
-            case "syscall": handleSyscall(); break;
+        String name = instr.getName();
+        if (name == null) {
+            return;
+        }
+
+        int rs = instr.getRs();
+        int rt = instr.getRt();
+        int rd = instr.getRd();
+
+        switch (name) {
+            case "add":
+            case "addu":
+                registers[rd] = registers[rs] + registers[rt];
+                break;
+            case "sub":
+                registers[rd] = registers[rs] - registers[rt];
+                break;
+            case "and":
+                registers[rd] = registers[rs] & registers[rt];
+                break;
+            case "or":
+                registers[rd] = registers[rs] | registers[rt];
+                break;
+            case "slt":
+                registers[rd] = (registers[rs] < registers[rt]) ? 1 : 0;
+                break;
+            case "syscall":
+                handleSyscall();
+                break;
         }
     }
 
-    private void executeI(MIPSInstructionI instr, int currentPC) {
-        int rs = instr.getRs(), rt = instr.getRt(), imm = instr.getImmediate();
-        switch (instr.getName()) {
-            case "addiu": registers[rt] = registers[rs] + imm; break;
-            case "andi":  registers[rt] = registers[rs] & (imm & 0xFFFF); break;
-            case "ori":   registers[rt] = registers[rs] | (imm & 0xFFFF); break;
-            case "lui":   registers[rt] = imm << 16; break;
-            case "lw":    registers[rt] = memory.getOrDefault(registers[rs] + imm, 0); break;
-            case "sw":    memory.put(registers[rs] + imm, registers[rt]); break;
-            case "beq":   if (registers[rs] == registers[rt]) pc = currentPC + 4 + (imm << 2); break;
-            case "bne":   if (registers[rs] != registers[rt]) pc = currentPC + 4 + (imm << 2); break;
+    private void executeI(MIPSInstructionI instr) {
+        String name = instr.getName();
+        int rs = instr.getRs();
+        int rt = instr.getRt();
+        int imm = instr.getImmediate();
+
+        switch (name) {
+            case "addiu":
+                registers[rt] = registers[rs] + imm;
+                break;
+            case "andi":
+                registers[rt] = registers[rs] & imm;
+                break;
+            case "ori":
+                registers[rt] = registers[rs] | imm;
+                break;
+            case "lui":
+                registers[rt] = imm << 16;
+                break;
+            case "lw":
+                registers[rt] = memory.getOrDefault(registers[rs] + imm, 0);
+                break;
+            case "sw":
+                memory.put(registers[rs] + imm, registers[rt]);
+                break;
+            case "beq":
+                if (registers[rs] == registers[rt])
+                    pc += imm << 2;
+                break;
+            case "bne":
+                if (registers[rs] != registers[rt])
+                    pc += imm << 2;
+                break;
         }
     }
 
-    private void executeJ(MIPSInstructionJ instr, int currentPC) {
-        int raw = instr.getFullInstructionInt();
-        int target = raw & 0x03FFFFFF;
-        pc = 0x00400000 + (target << 2);
+    private void executeJ(MIPSInstructionJ instr) {
+        int target = instr.getFullInstructionInt() & 0x03FFFFFF;
+        int newPC = 0x00400000 | (target << 2);  // force upper bits to 0x00400000
+        int index = (newPC - 0x00400000) / 4;
+        if (index >= 0 && index < instructions.size()) {
+            pc = newPC;
+        } else {
+            halted = true;
+        }
     }
+
+
+
+
+
 
 
     private void handleSyscall() {
         int v0 = registers[2];
         Scanner scanner = new Scanner(System.in);
+
         switch (v0) {
-            case 1: System.out.println(registers[4]); break;
+            case 1:
+                System.out.println(registers[4]);
+                break;
             case 4: {
                 int addr = registers[4];
                 StringBuilder sb = new StringBuilder();
@@ -131,22 +178,25 @@ public class MIPSProcessor {
                     sb.append((char) byteMemory.get(addr).byteValue());
                     addr++;
                 }
-                System.out.print(sb);
+                System.out.print(sb.toString());
                 break;
             }
             case 5:
-                try { registers[2] = scanner.nextInt(); }
-                catch (Exception e) { registers[2] = 0; }
+                try {
+                    registers[2] = scanner.nextInt();
+                } catch (NoSuchElementException e) {
+                    registers[2] = 0;
+                }
                 break;
-            case 10: System.out.println("-- program is finished running --"); halted = true; break;
+            case 10:
+                System.out.println();
+                System.out.println("-- program is finished running --");
+                halted = true;
+                break;
         }
     }
 
     public int getRegister(int regNum) {
         return registers[regNum];
-    }
-
-    public int getMemoryValue(int address) {
-        return memory.getOrDefault(address, 0);
     }
 }
