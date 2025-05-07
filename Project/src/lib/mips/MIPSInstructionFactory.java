@@ -55,20 +55,36 @@ public class MIPSInstructionFactory {
     }
 
     private static MIPSInstruction fromHex(String str) {
-        if(str.startsWith(("0x"))) {
+        if (str.startsWith("0x")) {
             str = str.substring(2);
         }
 
-        int op = (int)(Long.parseLong(str, 16) >> 26);
-        switch(OpCodeUtil.getType(op)) {
-            case R:
-                return new MIPSInstructionR(str, MIPSStringType.Hex);
-            case I:
-                return new MIPSInstructionI(str, MIPSStringType.Hex);
-            case J:
-                return new MIPSInstructionJ(str, MIPSStringType.Hex);
-            default:
-                throw new IllegalArgumentException("Not a valid op code");
+
+        if (str.length() < 8) {
+            str = String.format("%8s", str).replace(' ', '0');
+        }
+
+        try {
+            int instr = Integer.parseUnsignedInt(str, 16);
+            int op = (instr >>> 26) & 0x3F;
+
+
+            MIPSInstructionType type = OpCodeUtil.getType(op);
+
+
+            return switch (type) {
+                case R -> new MIPSInstructionR(str, MIPSStringType.Hex);
+                case I -> new MIPSInstructionI(str, MIPSStringType.Hex);
+                case J -> new MIPSInstructionJ(str, MIPSStringType.Hex);
+                case PSEUDO -> new MIPSInstructionPSEUDO(str, MIPSStringType.Hex);
+            };
+
+        } catch (IllegalArgumentException e) {
+            System.err.println("ERROR: Invalid opcode from instruction hex: " + str);
+            throw new IllegalArgumentException("Not a valid opcode: " + str, e);
+        } catch (Exception e) {
+            System.err.println("ERROR: Unexpected parsing error: " + e.getMessage());
+            throw e;
         }
     }
 

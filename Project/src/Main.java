@@ -1,11 +1,19 @@
-import lib.mips.MIPSInstruction;
-import lib.mips.MIPSInstructionFactory;
-import lib.mips.MIPSStringType;
+import lib.files.MIPSProcessor;
 
 public class Main {
     public static void main(String[] args) {
-        String test = args[0];
-        MIPSInstruction ins = MIPSInstructionFactory.create(test, MIPSStringType.Hex);
-        System.out.println(ins.toString());
+        if (args.length != 2) {
+            System.err.println("Usage: java -jar CS458.jar <text file> <data file>");
+            return;
+        }
+
+        try {
+            MIPSProcessor sim = new MIPSProcessor();
+            sim.loadTextFile(args[0]);
+            sim.loadDataFile(args[1]);
+            sim.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

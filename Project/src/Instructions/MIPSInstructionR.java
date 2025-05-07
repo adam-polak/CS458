@@ -83,4 +83,25 @@ public class MIPSInstructionR extends AbstractMIPSInstruction {
         inst = inst | (op << 26);
         return inst;
     }
+
+
+    public String getName() {
+        return FunctUtil.getString(funct);
+    }
+
+    public int getRs() {
+        return rs;
+    }
+
+    public int getRt() {
+        return rt;
+    }
+
+    public int getRd() {
+        return rd;
+    }
+
+
+
+
 }

@@ -1,18 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="4fd4dfb9-dcb3-46c3-ae60-cd58f77ce3ab" name="Changes" comment="" />
+    <list default="true" id="4fd4dfb9-dcb3-46c3-ae60-cd58f77ce3ab" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/CS458_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project/src/lib/files/MIPSProcessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project/src/tests/MileStone2_InstructionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/CS458.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CS458.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionI.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionJ.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionJ.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionPSEUDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionPSEUDO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/Instructions/MIPSInstructionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/lib/mips/AbstractMIPSInstruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/lib/mips/AbstractMIPSInstruction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/lib/mips/MIPSInstructionFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/lib/mips/MIPSInstructionFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/lib/mips/OpCodeUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/lib/mips/OpCodeUtil.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="test" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Solo753&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/adam-polak/CS458.git&quot;,
+    &quot;accountId&quot;: &quot;aecdb1f2-9452-42fa-8939-76ae00efd94a&quot;
+  }
+}</component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2sxdl4qba29UgqB2ypNIMm9GaEM" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -21,18 +66,92 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.MileStone2_InstructionTest.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "real",
     "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager" selected="JUnit.MileStone2_InstructionTest">
+    <configuration name="MileStone2_InstructionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CS458" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tests" />
+      <option name="MAIN_CLASS_NAME" value="tests.MileStone2_InstructionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MileStone2_Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CS458" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tests" />
+      <option name="MAIN_CLASS_NAME" value="tests.MileStone2_Test" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Prog2Tests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CS458" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tests" />
+      <option name="MAIN_CLASS_NAME" value="tests.Prog2Tests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.MileStone2_InstructionTest" />
+      <item itemvalue="JUnit.MileStone2_Test" />
+      <item itemvalue="JUnit.Prog2Tests" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.MileStone2_InstructionTest" />
+        <item itemvalue="JUnit.Prog2Tests" />
+        <item itemvalue="JUnit.MileStone2_Test" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-53826d6a" />
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.153" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.153" />
       </set>
     </attachedChunks>
   </component>
@@ -45,10 +164,23 @@
       <option name="presentableId" value="Default" />
       <updated>1739401308480</updated>
       <workItem from="1739401310313" duration="106000" />
+      <workItem from="1746582858577" duration="2526000" />
+      <workItem from="1746585718914" duration="706000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

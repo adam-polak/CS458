@@ -5,8 +5,9 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class OpCodeUtil {
-    private static final HashMap<String, Integer> map = new HashMap<>(){{
+    private static final HashMap<String, Integer> map = new HashMap<>() {{
         put("add", 0);
+        put("addi", 8);
         put("addiu", 9);
         put("and", 0);
         put("andi", 12);
@@ -32,12 +33,12 @@ public class OpCodeUtil {
     }
 
     public static String getString(int value) {
-        if(value == 0 || value == -1) {
+        if (value == 0 || value == -1) {
             throw new IllegalArgumentException("Cannot get op code string for 0 or -1");
         }
 
-        for(Map.Entry<String, Integer> entry : map.entrySet()) {
-            if(entry.getValue() == value) {
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == value) {
                 return entry.getKey();
             }
         }
@@ -46,15 +47,16 @@ public class OpCodeUtil {
     }
 
     public static MIPSInstructionType getType(int value) {
-        if(value == 0) {
+        if (value == 0) {
             return MIPSInstructionType.R;
         }
 
-        switch(value) {
+        switch (value) {
+            case 8:
             case 9:
             case 12:
-            case 15:
             case 13:
+            case 15:
             case 4:
             case 5:
             case 35:
@@ -65,7 +67,7 @@ public class OpCodeUtil {
             case -1:
                 return MIPSInstructionType.PSEUDO;
             default:
-                throw new IllegalArgumentException("Op code value not recognized");
+                throw new IllegalArgumentException("Op code value not recognized: " + value);
         }
     }
 }

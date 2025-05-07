@@ -37,16 +37,10 @@ public class MIPSInstructionJ extends AbstractMIPSInstruction {
                 + ", index: "
                 + hexStrLength(inst_index, 7)
                 + "}";
-//        return OpCodeUtil.getString(op)
-//                + (
-//                    formatHex
-//                    ? " 0x" + Integer.toHexString(inst_index)
-//                    : inst_index
-//                );
     }
 
     @Override
-    protected int getFullInstructionInt() {
+    public int getFullInstructionInt() {// this use to be private
         return inst_index | (op << 26);
     }
 }
